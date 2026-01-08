@@ -1,0 +1,82 @@
+/* Main page layout */
+.billing-layout {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+}
+
+@media (max-width: 1050px) {
+  .billing-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Product cards inside billing page */
+.product-card-apple {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.product-card-apple:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.07);
+}
+
+/* Product grid spacing (Apple-style) */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 22px;
+}
+
+/* Bill table styling */
+.bill-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.bill-table th {
+  background: rgba(0, 0, 0, 0.02);
+  text-align: left;
+  padding: 10px;
+  font-weight: 600;
+}
+
+.bill-table td {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+/* Remove button hover */
+.bill-table button:hover {
+  color: #dc2626;
+}
+
+/* Scroll for large bills */
+.bill-table::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+}
+
+.bill-table::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+}
+
+/* Buttons inside bill summary */
+.process-btn, .download-btn {
+  width: 100%;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  opacity: 1;
+}
+
+/* Soft fade for empty bill area */
+.bill-empty {
+  padding: 18px;
+  text-align: center;
+  font-size: 14px;
+  color: #9ca3af;
+}

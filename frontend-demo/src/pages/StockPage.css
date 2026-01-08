@@ -1,0 +1,36 @@
+/* StockPage.css */
+.stock-page {
+  max-width: 1000px;
+  margin: 20px auto;
+  padding: 20px;
+}
+
+.stock-page h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #1f2937;
+}
+
+.stock-page section {
+  background-color: #f9fafb;
+  padding: 15px 20px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 3px 8px rgba(0,0,0,0.1);
+}
+
+.stock-page h2 {
+  margin-bottom: 10px;
+  color: #111827;
+}
+
+.stock-page ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.stock-page li {
+  padding: 8px 0;
+  border-bottom: 1px solid #e5e7eb;
+  color: #374151;
+}
