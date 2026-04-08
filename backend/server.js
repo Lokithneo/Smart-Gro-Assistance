@@ -1,3 +1,5 @@
+// server.js (Smart Retail Backend)
+
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -6,10 +8,13 @@ require("dotenv").config();
 
 const productRoutes = require("./routes/ProductRoutes");
 const billingRouter = require("./routes/billing");
-const reportsRouter = require("./routes/reports"); // ✅ Reports route
+const reportsRouter = require("./routes/reports");
 
 const app = express();
 
+// -------------------------
+// MIDDLEWARE
+// -------------------------
 app.use(cors());
 app.use(express.json());
 app.use(helmet());
@@ -38,7 +43,7 @@ if (!MONGO_URI) {
 }
 
 mongoose
-  .connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(MONGO_URI, { useNewUrlParser: true }) // removed deprecated useUnifiedTopology
   .then(() => {
     console.log("✅ MongoDB connected successfully");
     app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
