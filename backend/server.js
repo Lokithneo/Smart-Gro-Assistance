@@ -38,12 +38,12 @@ const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
 
 if (!MONGO_URI) {
-  console.error("❌ MONGO_URI not found in .env");
+  console.error("❌ MONGO_URI not found in environment variables");
   process.exit(1);
 }
 
 mongoose
-  .connect(MONGO_URI, { useNewUrlParser: true }) // removed deprecated useUnifiedTopology
+  .connect(MONGO_URI) // modern driver automatically handles options
   .then(() => {
     console.log("✅ MongoDB connected successfully");
     app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
