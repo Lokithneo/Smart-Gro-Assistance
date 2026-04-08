@@ -1,6 +1,6 @@
 // src/pages/ProductsPage.js
 import React, { useEffect, useState } from "react";
-import { getProducts, addProduct, updateProduct, deleteProduct } from "../api";
+import { getProducts, addProduct, updateProduct, deleteProduct } from "../services/api";
 import "./ProductsPage.css";
 
 function ProductsPage() {
