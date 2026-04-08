@@ -6,6 +6,7 @@ export const API = axios.create({
 
 // Products
 export const getProducts = () => API.get("/products");
+export const addProduct = (productData) => API.post("/products", productData);
 
 // Stock
 export const getLowStock = (threshold = 10) => API.get(`/reports/low-stock?threshold=${threshold}`);
