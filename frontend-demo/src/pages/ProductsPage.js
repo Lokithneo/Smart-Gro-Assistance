@@ -1,6 +1,6 @@
 // src/pages/ProductsPage.js
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import { getProducts, addProduct, updateProduct, deleteProduct } from "../api";
 import "./ProductsPage.css";
 
 function ProductsPage() {
@@ -17,15 +17,11 @@ function ProductsPage() {
   const [fetching, setFetching] = useState(false);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    fetchProducts();
-  }, []);
-
-  // Fetch products
+  // Fetch products from backend
   const fetchProducts = async () => {
     try {
       setFetching(true);
-      const res = await axios.get("http://localhost:5000/api/products");
+      const res = await getProducts();
       setProducts(res.data || []);
       setFetching(false);
     } catch (err) {
@@ -35,18 +31,22 @@ function ProductsPage() {
     }
   };
 
-  // Handle field changes
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  // Handle input changes
   const handleChange = (e) => {
     setError(null);
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Submit add/update
+  // Handle form submit for add/update
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
 
-    if (!formData.name || formData.name.trim() === "") {
+    if (!formData.name.trim()) {
       setError("Product name is required");
       return;
     }
@@ -64,17 +64,17 @@ function ProductsPage() {
       price: Number(formData.price),
       quantity: Number(formData.quantity),
       expiryDate: formData.expiryDate ? new Date(formData.expiryDate).toISOString() : null,
-      image: formData.image?.trim() || ""
+      image: formData.image?.trim() || "",
     };
 
     try {
       setLoading(true);
 
       if (editingId) {
-        const res = await axios.put(`http://localhost:5000/api/products/${editingId}`, payload);
+        const res = await updateProduct(editingId, payload);
         alert(res.data?.message || "Product updated successfully!");
       } else {
-        const res = await axios.post("http://localhost:5000/api/products", payload);
+        const res = await addProduct(payload);
         alert(res.data?.message || "Product added successfully!");
       }
 
@@ -90,7 +90,7 @@ function ProductsPage() {
     }
   };
 
-  // Edit product
+  // Handle edit button click
   const handleEdit = (product) => {
     setError(null);
     setFormData({
@@ -98,18 +98,18 @@ function ProductsPage() {
       price: product.price != null ? String(product.price) : "",
       quantity: product.quantity != null ? String(product.quantity) : "",
       expiryDate: product.expiryDate ? product.expiryDate.split("T")[0] : "",
-      image: product.image || ""
+      image: product.image || "",
     });
     setEditingId(product._id);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  // Delete product
+  // Handle delete
   const handleDelete = async (id) => {
     if (!window.confirm("Delete this product?")) return;
     setError(null);
     try {
-      await axios.delete(`http://localhost:5000/api/products/${id}`);
+      await deleteProduct(id);
       await fetchProducts();
     } catch (err) {
       console.error("Error deleting product:", err);
@@ -121,6 +121,7 @@ function ProductsPage() {
     <div className="apple-products-container">
       <h1 className="apple-title">Product Management</h1>
 
+      {/* Form */}
       <div className="apple-card form-card">
         <form onSubmit={handleSubmit} className="apple-form">
           {error && <div style={{ color: "#b91c1c", marginBottom: 12 }}>{error}</div>}
@@ -194,6 +195,7 @@ function ProductsPage() {
         </form>
       </div>
 
+      {/* Product List */}
       <div className="apple-card list-card">
         {fetching ? (
           <p className="no-products">Loading products...</p>
@@ -211,7 +213,6 @@ function ProductsPage() {
                 <th></th>
               </tr>
             </thead>
-
             <tbody>
               {products.map((p) => (
                 <tr key={p._id}>
@@ -222,7 +223,6 @@ function ProductsPage() {
                   <td>₹{Number(p.price).toFixed(2)}</td>
                   <td>{p.quantity}</td>
                   <td>{p.expiryDate ? new Date(p.expiryDate).toLocaleDateString() : "N/A"}</td>
-
                   <td>
                     <button className="apple-edit" onClick={() => handleEdit(p)} disabled={loading}>
                       Edit
