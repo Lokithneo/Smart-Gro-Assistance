@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const API = axios.create({
-  baseURL: "https://smart-retail-backend.onrender.com",
+  baseURL: "https://smart-retail-backend.onrender.com/api",
 });
 
 // Products
